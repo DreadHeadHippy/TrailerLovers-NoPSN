@@ -1,9 +1,9 @@
 # TrailerLovers
 Fullscreen Theme for Playnite
 
-![screenshot01](screenshot01.png)
-![screenshot02](screenshot02.png)
-![screenshot02](screenshot03.png)
+![Screenshot-Updated01](Screenshot-Updated01.png)
+![Screenshot-Updated02](Screenshot-Updated02.png)
+![Screenshot-Updated03](Screenshot-Updated03.png)
 __________________________________________________________________________
 
 Recommended settings:
