@@ -8,7 +8,7 @@ __________________________________________________________________________
 
 Recommended settings:
 
-tested on 1920x1080
+optimized for 1920x1080 and 3440x1440 (21:9)
 
 Activate horizontal scrolling.
 columns: 10. 

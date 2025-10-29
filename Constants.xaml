@@ -105,6 +105,8 @@
     <sys:Double x:Key="FontSizeSmall">18</sys:Double>
     <sys:Double x:Key="FontSize">22</sys:Double>
 
+    <sys:Double x:Key="DesignWidth">3440</sys:Double>
+
     <sys:Double x:Key="FilterPanelWidth">325</sys:Double>
 
     <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">

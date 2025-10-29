@@ -2419,8 +2419,8 @@
                                     </Style.Triggers>
                                 </Style>
                             </Grid.Style>
-                            <Viewbox Stretch="Fill" x:Name="AnimatedIntroViewbox">
-                                <Canvas x:Name="AnimIntroCanvas1" Width="1920" Height="1080" Opacity="0">
+                            <Viewbox Stretch="UniformToFill" x:Name="AnimatedIntroViewbox">
+                                <Canvas x:Name="AnimIntroCanvas1" Width="3440" Height="1440" Opacity="0">
                                     <Canvas.Resources>
                                         <Storyboard x:Key="Video">
                                             <DoubleAnimation Storyboard.TargetName="VideoSource2" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:2"/>
@@ -2429,7 +2429,7 @@
                                             <DoubleAnimation Storyboard.TargetName="AnimIntroCanvas1" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:0.1"/>
                                             <DoubleAnimation Storyboard.TargetName="AnimIntroLogo" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:1" Duration="0:0:2"/>
                                             <DoubleAnimation Storyboard.TargetName="AnimIntroCanvas1" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="{DynamicResource IntroTimespan}" Duration="0:0:1"/>
-                                            <DoubleAnimation Storyboard.TargetName="AnimIntroCanvas1" Storyboard.TargetProperty="MaxHeight" From="2160" To="2161" BeginTime="{DynamicResource IntroTimespan}" Duration="0:0:0.01"/>
+                                            <DoubleAnimation Storyboard.TargetName="AnimIntroCanvas1" Storyboard.TargetProperty="MaxHeight" From="2880" To="2881" BeginTime="{DynamicResource IntroTimespan}" Duration="0:0:0.01"/>
                                         </Storyboard>
                                         <Storyboard x:Key="Border1" RepeatBehavior="30" BeginTime="0:0:1" FillBehavior="Stop">
                                             <DoubleAnimation Storyboard.TargetName="AnimIntroBorder1" Storyboard.TargetProperty="Width" From="100" To="400" Duration="0:0:1.5"/>
@@ -2444,7 +2444,7 @@
                                             <DoubleAnimation Storyboard.TargetName="AnimIntroBorder2" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5"/>
                                         </Storyboard>
                                         <Storyboard x:Key="End">
-                                            <DoubleAnimation Storyboard.TargetName="AnimIntroCanvas1" Storyboard.TargetProperty="Height" From="1080" To="1081" BeginTime="{DynamicResource IntroTimespan}" Duration="0:0:01"/>
+                                            <DoubleAnimation Storyboard.TargetName="AnimIntroCanvas1" Storyboard.TargetProperty="Height" From="1440" To="1441" BeginTime="{DynamicResource IntroTimespan}" Duration="0:0:01"/>
                                         </Storyboard>
                                     </Canvas.Resources>
                                     <Grid>
@@ -2470,8 +2470,8 @@
                                             <MediaElement.Style>
                                                 <Style TargetType="MediaElement">
                                                     <Setter Property="MediaElement.Source" Value="{Binding ElementName=VideoPath2, Path=Text}"/>
-                                                    <Setter Property="Height" Value="1080"/>
-                                                    <Setter Property="Width" Value="1920"/>
+                                                    <Setter Property="Height" Value="1440"/>
+                                                    <Setter Property="Width" Value="3440"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="False">
                                                             <Setter Property="MediaElement.Source" Value="" />
@@ -2481,7 +2481,7 @@
                                             </MediaElement.Style>
                                         </MediaElement>
                                     </Grid>
-                                    <Grid x:Name="AnimIntroLogo" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1920" Height="1080" Opacity="0">
+                                    <Grid x:Name="AnimIntroLogo" HorizontalAlignment="Center" VerticalAlignment="Center" Width="3440" Height="1440" Opacity="0">
                                         <Border x:Name="AnimIntroBorder1" BorderThickness="5" BorderBrush="White" CornerRadius="250" Width="0" Height="0" Opacity="0"/>
                                         <Border x:Name="AnimIntroBorder2" BorderThickness="5" BorderBrush="White" CornerRadius="250" Width="0" Height="0" Opacity="0"/>
                                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -2604,7 +2604,7 @@
                                                     </Storyboard>
                                                 </BeginStoryboard>
                                             </EventTrigger>
-                                            <DataTrigger Binding="{Binding ElementName=IntroVideoSource,Path=MaxHeight}" Value="2161">
+                                            <DataTrigger Binding="{Binding ElementName=IntroVideoSource,Path=MaxHeight}" Value="2881">
                                                 <Setter Property="MediaElement.Source" Value="Stop" />
                                             </DataTrigger>
                                         </Style.Triggers>

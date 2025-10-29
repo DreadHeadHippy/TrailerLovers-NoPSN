@@ -18,13 +18,13 @@
 
                             <!--Overlay Image 21:9-->
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.ColumnSpan="1" Grid.RowSpan="1">
-                                <Border Background="{DynamicResource MainBackgroundOverlay}" Opacity="1" HorizontalAlignment="Stretch" Height="1080"/>
+                                <Border Background="{DynamicResource MainBackgroundOverlay}" Opacity="1" HorizontalAlignment="Stretch" Height="1440"/>
                             </Grid>
                         </Grid>
 
                         <!--TRAILER-->
                         <Grid x:Name="Trailer">
-                            <ContentControl x:Name="ExtraMetadataLoader_VideoLoaderControl_NoControls_Sound">
+                            <ContentControl x:Name="ExtraMetadataLoader_VideoLoaderControl_NoControls_Sound" VerticalAlignment="Top">
                                 <ContentControl.Style>
                                     <Style TargetType="ContentControl">
                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -503,7 +503,7 @@
                                                     <Setter Property="Visibility" Value="Visible"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding ElementName=TrailerContainer1, Path=IsKeyboardFocusWithin}" Value="True">
-                                                            <Setter Property="Height" Value="1080"/>
+                                                            <Setter Property="Height" Value="1440"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding ElementName=TrailerContainer1, Path=Visibility}" Value="Collapsed">
                                                             <Setter Property="Focusable" Value="False"/>
@@ -519,7 +519,7 @@
                                                 </Style>
                                             </Grid.Style>
 
-                                            <Grid x:Name="TrailerContainer1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-50,0,0,-320">
+                                            <Grid x:Name="TrailerContainer1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-320" Width="3440">
                                                 <Grid x:Name="TrailerContainer2" Tag="{DynamicResource Trailers}" Style="{DynamicResource TrailersStyle}">
                                                     <Grid x:Name="MediaLabel" VerticalAlignment="Top">
                                                         <Grid.Style>
