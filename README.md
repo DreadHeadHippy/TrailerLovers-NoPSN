@@ -31,6 +31,4 @@ Recommended extensions:
     		PlayniteSound (optional)
 
 ___________________________________________________________________________
-
-
 I hope you enjoy your experience
