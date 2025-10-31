@@ -739,7 +739,37 @@
                                                     </StackPanel>
                                                 </StackPanel>
                                                 
-                                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0" >
+                                                <StackPanel Orientation="Vertical" Focusable="False" VerticalAlignment="Top" Margin="20,0,0,0">
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Notes}" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Notes}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                    <TextBlock Margin="10,0,0,0" Text="Notes" Style="{DynamicResource TextBlockBaseStyle}" FontSize="26"/>
+                                                    <Border Margin="0,25,0,0" Focusable="False" FocusVisualStyle="{x:Null}">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                                <Setter Property="BorderThickness" Value="3" />
+                                                                <Setter Property="CornerRadius" Value="5"/>
+                                                                <Setter Property="Background" Value="#B9000000"/>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                                        <Setter Property="BorderBrush" Value="White" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Border.Style>
+                                                        <TextBlock Margin="30,30,30,30" Text="{Binding Notes}" Style="{DynamicResource TextBlockBaseStyle}" TextWrapping="Wrap" FontSize="18" Focusable="True"/>
+                                                    </Border>
+                                                </StackPanel>
                                                     <StackPanel Margin="0,0,0,0" Tag="{PluginSettings Plugin=HowLongToBeat, Path=HasData}">
                                                         <StackPanel.Style>
                                                             <Style TargetType="StackPanel">
