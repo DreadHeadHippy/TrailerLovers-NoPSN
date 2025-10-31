@@ -30,10 +30,6 @@ Recommended extensions:
     		Splash Screen (optional)
     		PlayniteSound (optional)
 
-	Metadata Source:
-
-   		Universal PSN Metadata
-
 ___________________________________________________________________________
 
 
