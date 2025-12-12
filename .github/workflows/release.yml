@@ -84,12 +84,13 @@ jobs:
       id: release_notes
       run: |
         $version = "${{ steps.version.outputs.VERSION }}"
+        $packageVersion = "${{ steps.version.outputs.PACKAGE_VERSION }}"
         
-        $releaseNotes = @"Release (${{ steps.version.outputs.TAG }})
+        $releaseNotes = @"
+        ## TrailerLovers-NoPSN Release (${{ steps.version.outputs.TAG }})
         
         **Release Date**: $version
-        **Build**: $packageV
-        ## TrailerLovers-NoPSN v$version
+        **Build**: $packageVersion
         
         ### 🎮 Installation
         
@@ -100,7 +101,7 @@ jobs:
         
         **Manual Install:**
         1. Download and extract the source code
-        2. Copy to \`%AppData%\Playnite\Themes\Fullscreen\TrailerLovers-Personal\`
+        2. Copy to \`%AppData%\Playnite\Themes\Fullscreen\TrailerLovers-NoPSN\`
         3. Restart Playnite and select the theme
         
         ### 📋 Requirements
@@ -115,9 +116,17 @@ jobs:
         
         ### 📚 Documentation
         - [Installation Guide](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/INSTALL.md)
-        - [Changelog](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/CHANG1.0.3...${{ steps.version.outputs.TAG }}
+        - [Changelog](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/CHANGELOG.md)
         
         ---
+        
+        **Full Changelog**: https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/compare/v1.0.3...${{ steps.version.outputs.TAG }}
+        "@
+        
+        # Write to file for use in release
+        Set-Content "release-notes.txt" -Value $releaseNotes
+        echo "RELEASE_NOTES_FILE=release-notes.txt" >> $env:GITHUB_ENV
+      shell: pwsh
         
         **Full Changelog**: https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/compare/v$((([version]$version).Build -eq 1) ? "$($version.Split('.')[0]).$($version.Split('.')[1]).$([int]$version.Split('.')[2] - 1)" : "v$($version.Split('.')[0]).$($version.Split('.')[1]).$([int]$version.Split('.')[2] - 1)")...v$version
         "@
