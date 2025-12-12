@@ -47,9 +47,9 @@ jobs:
       shell: pwsh
       
     - name: Create theme package
-      runpackageVersion = "${{ steps.version.outputs.PACKAGE_VERSION }}"
-        $packageName = "TrailerLovers-NoPSN-$packageVERSION }}"
-        $packageName = "TrailerLovers-NoPSN-v$version"
+      run: |
+        $packageVersion = "${{ steps.version.outputs.PACKAGE_VERSION }}"
+        $packageName = "TrailerLovers-NoPSN-$packageVersion"
         
         # Create temporary directory for packaging
         $tempDir = New-Item -ItemType Directory -Path "temp-package" -Force
