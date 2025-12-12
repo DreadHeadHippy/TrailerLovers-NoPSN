@@ -1,0 +1,29 @@
+# Build outputs
+releases/
+temp-*
+*.pthm
+
+# Development files
+.vs/
+.vscode/
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Temporary files
+*~
+*.tmp
+*.temp
+
+# Package files (keep source, ignore built packages)
+TrailerLovers_*.zip
+TrailerLovers-*.pthm
+TrailerLovers_Fixed.pthm
+TrailerLovers_Modified.pthm
+
+# Backup files
+*.bak
+*.backup
