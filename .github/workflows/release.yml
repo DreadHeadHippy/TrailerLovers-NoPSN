@@ -14,42 +14,27 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Set version
-      id: version
+    - name: Set release info
+      id: release_info
       run: |
-        if ("${{ github.event_name }}" -eq "workflow_dispatch") {
-          $version = "${{ github.event.inputs.version }}"
-        } else {
-          $version = "${{ github.ref_name }}" -replace '^v', ''
-        }
         $timestamp = Get-Date -Format "yyyy-MM-dd"
         $shortCommit = "${{ github.sha }}".Substring(0, 7)
         $tag = "${{ github.ref_name }}"
         
-        # Use timestamp as version
-        $version = $timestamp
-        $packageVersion = "$timestamp-$shortCommit"
+        echo "TIMESTAMP=$timestamp" >> $env:GITHUB_OUTPUT
+        echo "SHORT_COMMIT=$shortCommit" >> $env:GITHUB_OUTPUT
+        echo "TAG=$tag" >> $env:GITHUB_OUTPUT
         
-        echo "VERSION=$vers with date-based version
-        $themeContent = Get-Content "theme.yaml" -Raw
-        $themeContent = $themeContent -replace "Version: [\d\.\-]+", "Version: $version"
-        Set-Content "theme.yaml" -Value $theme.]+", "Version: $version"
-        Set-Content "theme.yaml" -Value $themeContent -NoNewline
-        
-        # Update InstallerManifest.yaml
-        $manifestContent = Get-Content "InstallerManifest.yaml" -Raw
-        $today = Get-Date -Format "yyyy-MM-dd"
-        $manifestContent = $manifestContent -replace "ReleaseDate: \d{4}-\d{2}-\d{2}", "ReleaseDate: $today"
-        $manifestContent = $manifestContent -replace "Version: [\d\.]+", "Version: $version"
-        Set-Content "InstallerManifest.yaml" -Value $manifestContent -NoNewline
-        
-        Write-Host "Updated version to $version"
+        Write-Host "Tag: $tag"
+        Write-Host "Timestamp: $timestamp" 
+        Write-Host "Commit: $shortCommit"
       shell: pwsh
       
     - name: Create theme package
       run: |
-        $packageVersion = "${{ steps.version.outputs.PACKAGE_VERSION }}"
-        $packageName = "TrailerLovers-NoPSN-$packageVersion"
+        $timestamp = "${{ steps.release_info.outputs.TIMESTAMP }}"
+        $commit = "${{ steps.release_info.outputs.SHORT_COMMIT }}"
+        $packageName = "TrailerLovers-NoPSN-$timestamp-$commit"
         
         # Create temporary directory for packaging
         $tempDir = New-Item -ItemType Directory -Path "temp-package" -Force
@@ -81,66 +66,53 @@ jobs:
       shell: pwsh
       
     - name: Generate release notes
-      id: release_notes
       run: |
-        $version = "${{ steps.version.outputs.VERSION }}"
-        $packageVersion = "${{ steps.version.outputs.PACKAGE_VERSION }}"
+        $timestamp = "${{ steps.release_info.outputs.TIMESTAMP }}"
+        $commit = "${{ steps.release_info.outputs.SHORT_COMMIT }}"
+        $tag = "${{ steps.release_info.outputs.TAG }}"
         
         $releaseNotes = @"
-        ## TrailerLovers-NoPSN Release (${{ steps.version.outputs.TAG }})
-        
-        **Release Date**: $version
-        **Build**: $packageVersion
-        
-        ### 🎮 Installation
-        
-        **Quick Install:**
-        1. Download the \`.pthm\` file below
-        2. Double-click to install automatically in Playnite
-        3. Activate in Playnite Settings → Theme
-        
-        **Manual Install:**
-        1. Download and extract the source code
-        2. Copy to \`%AppData%\Playnite\Themes\Fullscreen\TrailerLovers-NoPSN\`
-        3. Restart Playnite and select the theme
-        
-        ### 📋 Requirements
-        - Playnite 9.0+
-        - Recommended resolution: 1920x1080 or 3440x1440
-        
-        ### 🔌 Recommended Extensions
-        - ExtraMetadataLoader
-        - ExtraMetadataLoader Fullscreen Helper  
-        - How Long To Beat
-        - SuccessStory
-        
-        ### 📚 Documentation
-        - [Installation Guide](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/INSTALL.md)
-        - [Changelog](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/CHANGELOG.md)
-        
-        ---
-        
-        **Full Changelog**: https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/compare/v1.0.3...${{ steps.version.outputs.TAG }}
-        "@
+## TrailerLovers-NoPSN ($tag)
+
+**Modified Playnite theme based on the original TrailerLovers theme**
+
+**Build Date**: $timestamp  
+**Commit**: $commit
+
+### 🎮 Installation
+
+**Quick Install:**
+1. Download the `.pthm` file below
+2. Double-click to install automatically in Playnite
+3. Activate in Playnite Settings → Theme
+
+### 📋 Requirements
+- Playnite 9.0+
+- Recommended resolution: 1920x1080 or 3440x1440
+
+### 🔌 Recommended Extensions
+- ExtraMetadataLoader
+- ExtraMetadataLoader Fullscreen Helper  
+- How Long To Beat
+- SuccessStory
+
+### 📚 Documentation
+- [Installation Guide](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/INSTALL.md)
+
+---
+
+*This is a modified version of the original TrailerLovers theme by blooderscrew*
+"@
         
         # Write to file for use in release
         Set-Content "release-notes.txt" -Value $releaseNotes
-        echo "RELEASE_NOTES_FILE=release-notes.txt" >> $env:GITHUB_ENV
-      shell: pwsh
-        
-        **Full Changelog**: https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/compare/v$((([version]$version).Build -eq 1) ? "$($version.Split('.')[0]).$($version.Split('.')[1]).$([int]$version.Split('.')[2] - 1)" : "v$($version.Split('.')[0]).$($version.Split('.')[1]).$([int]$version.Split('.')[2] - 1)")...v$version
-        "@
-        
-        # Write to file for use in release
-        Set-Content "release-notes.txt" -Value $releaseNotes
-        echo "RELEASE_NOTES_FILE=release-notes.txt" >> $env:GITHUB_ENV
       shell: pwsh
       
-    - name: Create Release(${{ steps.version.outputs.VERSION }})
+    - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ steps.version.outputs.TAG }}
-        name: "TrailerLovers-NoPSN v${{ steps.version.outputs.VERSION }}"
+        tag_name: ${{ steps.release_info.outputs.TAG }}
+        name: "TrailerLovers-NoPSN (${{ steps.release_info.outputs.TIMESTAMP }})"
         body_path: release-notes.txt
         files: |
           ${{ env.PACKAGE_PATH }}
