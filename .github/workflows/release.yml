@@ -3,13 +3,8 @@ name: Create Release
 on:
   push:
     tags:
-      - 'v*'  # Triggered on version tags like v1.0.3
+      - 'release*'  # Triggered on tags like 'release', 'release-2', etc.
   workflow_dispatch:  # Allow manual trigger
-    inputs:
-      version:
-        description: 'Version number (e.g., 1.0.3)'
-        required: true
-        default: '1.0.3'
 
 jobs:
   create-release:
@@ -27,17 +22,18 @@ jobs:
         } else {
           $version = "${{ github.ref_name }}" -replace '^v', ''
         }
-        echo "VERSION=$version" >> $env:GITHUB_OUTPUT
-        echo "TAG=v$version" >> $env:GITHUB_OUTPUT
-      shell: pwsh
-      
-    - name: Update version in files
-      run: |
-        $version = "${{ steps.version.outputs.VERSION }}"
+        $timestamp = Get-Date -Format "yyyy-MM-dd"
+        $shortCommit = "${{ github.sha }}".Substring(0, 7)
+        $tag = "${{ github.ref_name }}"
         
-        # Update theme.yaml
+        # Use timestamp as version
+        $version = $timestamp
+        $packageVersion = "$timestamp-$shortCommit"
+        
+        echo "VERSION=$vers with date-based version
         $themeContent = Get-Content "theme.yaml" -Raw
-        $themeContent = $themeContent -replace "Version: [\d\.]+", "Version: $version"
+        $themeContent = $themeContent -replace "Version: [\d\.\-]+", "Version: $version"
+        Set-Content "theme.yaml" -Value $theme.]+", "Version: $version"
         Set-Content "theme.yaml" -Value $themeContent -NoNewline
         
         # Update InstallerManifest.yaml
@@ -51,8 +47,8 @@ jobs:
       shell: pwsh
       
     - name: Create theme package
-      run: |
-        $version = "${{ steps.version.outputs.VERSION }}"
+      runpackageVersion = "${{ steps.version.outputs.PACKAGE_VERSION }}"
+        $packageName = "TrailerLovers-NoPSN-$packageVERSION }}"
         $packageName = "TrailerLovers-NoPSN-v$version"
         
         # Create temporary directory for packaging
@@ -89,7 +85,10 @@ jobs:
       run: |
         $version = "${{ steps.version.outputs.VERSION }}"
         
-        $releaseNotes = @"
+        $releaseNotes = @"Release (${{ steps.version.outputs.TAG }})
+        
+        **Release Date**: $version
+        **Build**: $packageV
         ## TrailerLovers-NoPSN v$version
         
         ### 🎮 Installation
@@ -116,7 +115,7 @@ jobs:
         
         ### 📚 Documentation
         - [Installation Guide](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/INSTALL.md)
-        - [Changelog](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/CHANGELOG.md)
+        - [Changelog](https://github.com/DreadHeadHippy/TrailerLovers-NoPSN/blob/main/CHANG1.0.3...${{ steps.version.outputs.TAG }}
         
         ---
         
@@ -128,7 +127,7 @@ jobs:
         echo "RELEASE_NOTES_FILE=release-notes.txt" >> $env:GITHUB_ENV
       shell: pwsh
       
-    - name: Create Release
+    - name: Create Release(${{ steps.version.outputs.VERSION }})
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.version.outputs.TAG }}
